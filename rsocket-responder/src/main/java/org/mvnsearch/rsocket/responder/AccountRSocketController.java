@@ -1,8 +1,11 @@
 package org.mvnsearch.rsocket.responder;
 
 import org.mvnsearch.account.Account;
+import org.mvnsearch.account.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Mono;
 
 /**
  * account rsocket controller
@@ -11,12 +14,11 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class AccountRSocketController {
+    @Autowired
+    private AccountService accountService;
 
     @MessageMapping("org.mvnsearch.account.AccountService.findById")
-    public Account findById(Integer id) {
-        Account account = new Account();
-        account.setId(id);
-        account.setNick("linux_china");
-        return account;
+    public Mono<Account> findById(Integer id) {
+        return accountService.findById(id);
     }
 }
