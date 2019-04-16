@@ -1,6 +1,7 @@
 package org.mvnsearch.account;
 
 import org.springframework.messaging.rsocket.RSocketRequester;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.InvocationHandler;
@@ -36,7 +37,7 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
             returnDataType = (Class) aType.getActualTypeArguments()[0];
         }
         Object param;
-        if (args != null && args.length > 1) {
+        if (args != null && args.length >= 1) {
             param = args[0];
         } else {
             param = Mono.empty();
@@ -44,7 +45,7 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
         RSocketRequester.RequestSpec route = rsocketRequester.route(routeKey);
         if (method.getReturnType().isAssignableFrom(Mono.class)) {
             return route.data(param).retrieveMono(returnDataType).timeout(timeout);
-        } else if (method.getReturnType().isAssignableFrom(Mono.class)) {
+        } else if (method.getReturnType().isAssignableFrom(Flux.class)) {
             return route.data(param).retrieveFlux(returnDataType).timeout(timeout);
         } else {
             return route.data(param).send().timeout(timeout);
