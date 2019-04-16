@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class AccountRSocketController {
 
-    @MessageMapping("findById")
+    @MessageMapping("org.mvnsearch.account.AccountService.findById")
     public Account findById(Integer id) {
         Account account = new Account();
         account.setId(id);

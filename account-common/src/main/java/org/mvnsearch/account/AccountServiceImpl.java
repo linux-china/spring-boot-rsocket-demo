@@ -18,6 +18,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<Account> findById(Integer id) {
-        return rsocketRequester.route("findById").data(id).retrieveMono(Account.class);
+        return rsocketRequester.route("org.mvnsearch.account.AccountService.findById").data(id).retrieveMono(Account.class);
     }
 }
