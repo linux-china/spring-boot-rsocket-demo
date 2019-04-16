@@ -3,6 +3,8 @@ package org.mvnsearch.rsocket.requester;
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.TcpClientTransport;
+import org.mvnsearch.account.AccountService;
+import org.mvnsearch.account.AccountServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketRequester;
@@ -28,5 +30,11 @@ public class RSocketConfiguration {
     @Bean
     public RSocketRequester rsocketRequester(RSocket rSocket, RSocketStrategies strategies) {
         return RSocketRequester.create(rSocket, MimeTypeUtils.APPLICATION_JSON, strategies);
+    }
+
+
+    @Bean
+    public AccountService accountService(RSocketRequester rsocketRequester) {
+        return new AccountServiceImpl(rsocketRequester);
     }
 }
