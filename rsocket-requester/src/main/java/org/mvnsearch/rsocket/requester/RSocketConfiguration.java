@@ -4,7 +4,7 @@ import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.TcpClientTransport;
 import org.mvnsearch.account.AccountService;
-import org.mvnsearch.account.AccountServiceImpl;
+import org.mvnsearch.account.RSocketRemoteServiceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketRequester;
@@ -35,6 +35,6 @@ public class RSocketConfiguration {
 
     @Bean
     public AccountService accountService(RSocketRequester rsocketRequester) {
-        return new AccountServiceImpl(rsocketRequester);
+        return RSocketRemoteServiceBuilder.client(rsocketRequester, AccountService.class).build();
     }
 }
