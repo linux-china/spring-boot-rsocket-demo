@@ -35,12 +35,19 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
             ParameterizedType aType = (ParameterizedType) method.getGenericReturnType();
             returnDataType = (Class) aType.getActualTypeArguments()[0];
         }
-        if (method.getReturnType().isAssignableFrom(Mono.class)) {
-            return rsocketRequester.route(routeKey).data(args[0]).retrieveMono(returnDataType).timeout(timeout);
-        } else if (method.getReturnType().isAssignableFrom(Mono.class)) {
-            return rsocketRequester.route(routeKey).data(args[0]).retrieveFlux(returnDataType).timeout(timeout);
+        Object param;
+        if (args != null && args.length > 1) {
+            param = args[0];
         } else {
-            return rsocketRequester.route(routeKey).data(args[0]).send().timeout(timeout);
+            param = Mono.empty();
+        }
+        RSocketRequester.RequestSpec route = rsocketRequester.route(routeKey);
+        if (method.getReturnType().isAssignableFrom(Mono.class)) {
+            return route.data(param).retrieveMono(returnDataType).timeout(timeout);
+        } else if (method.getReturnType().isAssignableFrom(Mono.class)) {
+            return route.data(param).retrieveFlux(returnDataType).timeout(timeout);
+        } else {
+            return route.data(param).send().timeout(timeout);
         }
     }
 }
