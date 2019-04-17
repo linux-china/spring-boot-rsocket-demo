@@ -1,7 +1,7 @@
 Spring Boot RSocket Demo
 ========================
 
-Demo with Spring Messaging RSocket and Spring Boot(spring-boot-starter-rsocket).
+Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M2(spring-boot-starter-rsocket).
 
 ### Requirements
 
@@ -19,11 +19,66 @@ Demo with Spring Messaging RSocket and Spring Boot(spring-boot-starter-rsocket).
 * rsocket-responder: supply RSocket services
 * rsocket-requester: consume RSocket services
 
-### How to use Reactive Service Interface
+### How the demo works?
 
-* Create a service interface with Reactor support, please check AccountService
-* On responder side: implement Service Interface and create a RSocket Controller, for example AccountRSocketController. In future you can use code generation.
-* On requester side: use RSocketRemoteServiceBuilder to build service call stub.
+* Create a Reactive service interface like following
+
+```java
+public interface AccountService {
+
+    Mono<Account> findById(Integer id);
+
+    Flux<Account> findAll();
+
+}
+```
+
+* On responder side: implement Service Interface and create a RSocket Controller, for example AccountRSocketController. In future you can use code generation strategy.
+
+```java
+@Controller
+public class AccountRSocketController {
+    @Autowired
+    private AccountService accountService;
+
+    @MessageMapping("org.mvnsearch.account.AccountService.findById")
+    public Mono<Account> findById(Integer id) {
+        return accountService.findById(id);
+    }
+
+    @MessageMapping("org.mvnsearch.account.AccountService.findAll")
+    public Flux<Account> findAll() {
+        return accountService.findAll();
+    }
+}
+```
+
+* On requester side: use RSocketRemoteServiceBuilder to build service call stub bean.
+
+```java
+@Configuration
+public class RSocketConfiguration {
+    @Bean
+    public RSocket rsocket() {
+        return RSocketFactory.connect()
+                .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
+                .transport(TcpClientTransport.create("localhost", 42252))
+                .start()
+                .block();
+    }
+
+    @Bean
+    public RSocketRequester rsocketRequester(RSocket rSocket, RSocketStrategies strategies) {
+        return RSocketRequester.create(rSocket, MimeTypeUtils.APPLICATION_JSON, strategies);
+    }
+
+
+    @Bean
+    public AccountService accountService(RSocketRequester rsocketRequester) {
+        return RSocketRemoteServiceBuilder.client(rsocketRequester, AccountService.class).build();
+    }
+}
+```
 
 ### References
 
