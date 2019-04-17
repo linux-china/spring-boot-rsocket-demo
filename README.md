@@ -11,7 +11,7 @@ Demo with Spring Messaging RSocket and Spring Boot(spring-boot-starter-rsocket).
 
 ### Glossary
 
-* RSocketRequester: RSocket请求者，你可以理解为WebClient
+* RSocketRequester: RSocket Requester, almost like WebClient for HTTP.
 
 ### Modules
 
