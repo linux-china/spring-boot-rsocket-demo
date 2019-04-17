@@ -15,10 +15,10 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.2.0.BUILD-SNAPSHOT</spring-boot.version>
+        <spring-boot.version>2.2.0.M2</spring-boot.version>
         <spring.version>5.2.0.M1</spring.version>
         <reactor-bom.version>Californium-SR6</reactor-bom.version>
-        <rsocket.version>0.12.1-RC3</rsocket.version>
+        <rsocket.version>0.12.2-RC1</rsocket.version>
         <junit5.version>5.4.2</junit5.version>
     </properties>
 
