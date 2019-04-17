@@ -2,7 +2,7 @@ package org.mvnsearch.rsocket.requester;
 
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
-import io.rsocket.transport.netty.client.TcpClientTransport;
+import io.rsocket.transport.netty.client.WebsocketClientTransport;
 import org.mvnsearch.account.AccountService;
 import org.mvnsearch.account.RSocketRemoteServiceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.util.MimeTypeUtils;
+
+import java.net.URI;
 
 /**
  * rsocket configuration
@@ -19,10 +21,11 @@ import org.springframework.util.MimeTypeUtils;
 @Configuration
 public class RSocketConfiguration {
     @Bean
-    public RSocket rsocket() {
+    public RSocket rsocket() throws Exception {
         return RSocketFactory.connect()
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
-                .transport(TcpClientTransport.create("localhost", 42252))
+                //.transport(TcpClientTransport.create("localhost", 42252))
+                .transport(WebsocketClientTransport.create(new URI("ws://localhost:8088/rsocket")))
                 .start()
                 .block();
     }
