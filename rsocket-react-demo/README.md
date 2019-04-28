@@ -11,9 +11,12 @@ brew install yschimke/tap/rsocket-cli
 ```
 
 * start RSocket WebSocket Server
+
 ```
  rsocket-cli -i '{"nick":"nick from rsocket","id":1}' --server ws://localhost:8088/rsocket
 ```
+
+Or you can start RSocket Spring Boot App.
 
 * Start React App
 
