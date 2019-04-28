@@ -18,6 +18,7 @@ Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M2(spring-boot-starter-
 * account-common: shared library for RSocket responder & requester
 * rsocket-responder: supply RSocket services
 * rsocket-requester: consume RSocket services
+* rsocket-react-demo: call rsocket service from browser
 
 ### How the demo works?
 
