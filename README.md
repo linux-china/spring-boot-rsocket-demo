@@ -83,7 +83,7 @@ public class RSocketConfiguration {
 
 ### Browser support
 
-Please refer [rsocket-react-demo](rsocket-react-demo)rsocket-react-demo for RSocket and React integration.
+Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React integration.
 
 ### References
 
