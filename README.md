@@ -81,6 +81,10 @@ public class RSocketConfiguration {
 }
 ```
 
+### Browser support
+
+Please refer [rsocket-react-demo](rsocket-react-demo)rsocket-react-demo for RSocket and React integration.
+
 ### References
 
 * Spring Tips: RSocket Messaging in Spring Boot 2.2: https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
