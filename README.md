@@ -85,6 +85,12 @@ public class RSocketConfiguration {
 
 Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React integration.
 
+
+### Changes
+
+* Option to customize or mutate existing RSocketStrategies: https://github.com/spring-projects/spring-framework/issues/22799
+* Add coroutines support to RSocket @MessageMapping and RSocketRequester: https://github.com/spring-projects/spring-framework/issues/22780
+
 ### References
 
 * Spring Tips: RSocket Messaging in Spring Boot 2.2: https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
