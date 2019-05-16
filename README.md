@@ -47,6 +47,11 @@ public class AccountRSocketController {
         return accountService.findById(id);
     }
 
+    @MessageMapping("org.mvnsearch.account.AccountService.findById.{id}")
+    public Mono<Account> findById2(@DestinationVariable Integer id) {
+        return accountService.findById(id);
+    }
+
     @MessageMapping("org.mvnsearch.account.AccountService.findAll")
     public Flux<Account> findAll() {
         return accountService.findAll();
