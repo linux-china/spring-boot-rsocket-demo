@@ -3,6 +3,7 @@ package org.mvnsearch.rsocket.responder;
 import org.mvnsearch.account.Account;
 import org.mvnsearch.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
@@ -20,6 +21,11 @@ public class AccountRSocketController {
 
     @MessageMapping("org.mvnsearch.account.AccountService.findById")
     public Mono<Account> findById(Integer id) {
+        return accountService.findById(id);
+    }
+
+    @MessageMapping("org.mvnsearch.account.AccountService.findById.{id}")
+    public Mono<Account> findById2(@DestinationVariable Integer id) {
         return accountService.findById(id);
     }
 
