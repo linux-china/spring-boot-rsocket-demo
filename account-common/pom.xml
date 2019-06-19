@@ -10,8 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.2.0.M1</spring.version>
-        <reactor.version>3.2.8.RELEASE</reactor.version>
+        <spring.version>5.2.0.M3</spring.version>
+        <reactor.version>3.2.9.RELEASE</reactor.version>
     </properties>
 
     <dependencies>
