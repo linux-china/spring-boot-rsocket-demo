@@ -21,6 +21,7 @@ public class RSocketConfiguration {
     @Bean
     public RSocket rsocket() throws Exception {
         return RSocketFactory.connect()
+                .metadataMimeType("message/x.rsocket.composite-metadata.v0")
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
                 //.transport(TcpClientTransport.create("localhost", 42252))
                 .transport(UriTransportRegistry.clientForUri("ws://localhost:8088/rsocket"))
@@ -30,7 +31,7 @@ public class RSocketConfiguration {
 
     @Bean
     public RSocketRequester rsocketRequester(RSocket rSocket, RSocketStrategies strategies) {
-        return RSocketRequester.create(rSocket, MimeTypeUtils.APPLICATION_JSON, strategies);
+        return RSocketRequester.wrap(rSocket, MimeTypeUtils.APPLICATION_JSON, MimeTypeUtils.parseMimeType("message/x.rsocket.composite-metadata.v0"), strategies);
     }
 
 
