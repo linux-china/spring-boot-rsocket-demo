@@ -53,7 +53,7 @@ class RSocketComponent extends Component {
                 // // format of `data`
                 dataMimeType: 'application/json',
                 // format of `metadata`
-                metadataMimeType: 'text/plain',
+                metadataMimeType: 'x.rsocket.routing.v0',
             },
             transport: new RSocketWebSocketClient({url: 'ws://localhost:8088/rsocket'}),
         });
