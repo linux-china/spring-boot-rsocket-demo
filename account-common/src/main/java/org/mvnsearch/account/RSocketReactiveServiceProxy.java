@@ -22,14 +22,14 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
 
     public RSocketReactiveServiceProxy(RSocketRequester rsocketRequester, Class serviceInterface, Duration timeout) {
         this.rsocketRequester = rsocketRequester;
-        this.serviceFullName = serviceInterface.getCanonicalName();
+        this.serviceFullName = serviceInterface.getCanonicalName().replaceAll("\\.", "_");
         this.timeout = timeout;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        String routeKey = serviceFullName + "." + method.getName();
+        String routeKey = serviceFullName + "_" + method.getName();
         Class returnDataType = null;
         Type genericReturnType = method.getGenericReturnType();
         if (genericReturnType != null) {
