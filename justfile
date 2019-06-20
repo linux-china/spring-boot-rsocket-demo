@@ -1,5 +1,5 @@
 sending:
-   rsocket-cli --dataFormat "application/json" --request -m "org.mvnsearch.account.AccountService.findById"  -i "1" --debug ws://localhost:8088/rsocket
+   rsocket-cli --metadataFormat routing --dataFormat json --request -m "org_mvnsearch_account_AccountService_findById"  -i "1" --debug ws://localhost:8088/rsocket
 
 sending2:
-   rsocket-cli --dataFormat "application/json" --request -m "org.mvnsearch.account.AccountService.findById.1" -i "" --debug ws://localhost:8088/rsocket
+   rsocket-cli --metadataFormat routing --dataFormat json --request -m "org_mvnsearch_account_AccountService_findById_1" -i "{}" --debug ws://localhost:8088/rsocket
