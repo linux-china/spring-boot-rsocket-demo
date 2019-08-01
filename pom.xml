@@ -17,9 +17,9 @@
         <java.version>1.8</java.version>
         <spring-boot.version>2.2.0.M4</spring-boot.version>
         <spring.version>5.2.0.M3</spring.version>
-        <reactor-bom.version>Californium-SR9</reactor-bom.version>
-        <rsocket.version>0.12.2-RC4</rsocket.version>
-        <junit5.version>5.5.0-RC1</junit5.version>
+        <reactor-bom.version>Dysprosium-M3</reactor-bom.version>
+        <rsocket.version>1.0.0-RC2</rsocket.version>
+        <junit5.version>5.5.1</junit5.version>
     </properties>
 
     <dependencies>
