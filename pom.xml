@@ -15,9 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.2.0.M4</spring-boot.version>
-        <spring.version>5.2.0.M3</spring.version>
-        <reactor-bom.version>Dysprosium-M3</reactor-bom.version>
+        <spring-boot.version>2.2.0.M5</spring-boot.version>
         <rsocket.version>1.0.0-RC2</rsocket.version>
         <junit5.version>5.5.1</junit5.version>
     </properties>
@@ -62,7 +60,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.12.1</version>
+            <version>3.12.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -86,25 +84,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-bom</artifactId>
-                <version>${reactor-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
