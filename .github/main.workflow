@@ -1,6 +1,6 @@
-workflow "New workflow" {
-  on = "push"
+workflow "Project Build" {
   resolves = ["Setup Java Action"]
+  on = "push"
 }
 
 action "Setup Java Action" {
