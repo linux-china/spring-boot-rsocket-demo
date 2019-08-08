@@ -1,10 +1,9 @@
-workflow "New workflow" {
-  on = "push"
+workflow "Project Build" {
   resolves = ["Setup Java Action"]
+  on = "push"
 }
 
 action "Setup Java Action" {
-  uses = "actions/setup-java@232795a7c4c518061ce6a41f418b171de03cb907"
-  runs = "mvn"
-  args = "-DskipTests package --file pom.xml"
+  uses = "LucaFeger/action-maven-cli@765e218a50f02a12a7596dc9e7321fc385888a27"
+  args = "-DskipTests package"
 }
