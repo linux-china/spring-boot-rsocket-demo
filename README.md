@@ -1,13 +1,13 @@
 Spring Boot RSocket Demo
 ========================
 
-Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M2(spring-boot-starter-rsocket).
+Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M5(spring-boot-starter-rsocket).
 
 ### Requirements
 
 * Jdk 1.8+
-* Spring Framework 5.2.0.M3
-* Spring Boot 2.2.0.M4
+* Spring Framework 5.2.0.M4
+* Spring Boot 2.2.0.M5
 
 ### Glossary
 
