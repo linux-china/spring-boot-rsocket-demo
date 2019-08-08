@@ -4,7 +4,7 @@ workflow "New workflow" {
 }
 
 action "Setup Java Action" {
-  uses = "actions/setup-java@232795a7c4c518061ce6a41f418b171de03cb907"
+  uses = "actions/setup-java@v1"
   runs = "mvn"
   args = "-DskipTests package --file pom.xml"
 }
