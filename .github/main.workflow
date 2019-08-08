@@ -4,7 +4,6 @@ workflow "New workflow" {
 }
 
 action "Setup Java Action" {
-  uses = "actions/setup-java@v1"
-  runs = "java"
-  args = "-version"
+  uses = "LucaFeger/action-maven-cli@765e218a50f02a12a7596dc9e7321fc385888a27"
+  args = "-DskipTests package"
 }
