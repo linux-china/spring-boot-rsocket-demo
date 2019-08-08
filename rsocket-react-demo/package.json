@@ -5,7 +5,7 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0",
+    "react-scripts": "3.0.1",
     "rsocket-core": "^0.0.10",
     "rsocket-flowable": "^0.0.10",
     "rsocket-types": "^0.0.10",
