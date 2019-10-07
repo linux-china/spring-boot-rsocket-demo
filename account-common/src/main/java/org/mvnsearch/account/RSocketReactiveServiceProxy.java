@@ -22,7 +22,7 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
 
     public RSocketReactiveServiceProxy(RSocketRequester rsocketRequester, Class<?> serviceInterface, Duration timeout) {
         this.rsocketRequester = rsocketRequester;
-        this.serviceFullName = serviceInterface.getCanonicalName().replaceAll("\\.", "_");
+        this.serviceFullName = serviceInterface.getCanonicalName();
         this.timeout = timeout;
     }
 
