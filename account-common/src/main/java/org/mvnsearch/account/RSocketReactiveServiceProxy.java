@@ -20,21 +20,20 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
     private String serviceFullName;
     private Duration timeout;
 
-    public RSocketReactiveServiceProxy(RSocketRequester rsocketRequester, Class serviceInterface, Duration timeout) {
+    public RSocketReactiveServiceProxy(RSocketRequester rsocketRequester, Class<?> serviceInterface, Duration timeout) {
         this.rsocketRequester = rsocketRequester;
         this.serviceFullName = serviceInterface.getCanonicalName().replaceAll("\\.", "_");
         this.timeout = timeout;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String routeKey = serviceFullName + "_" + method.getName();
-        Class returnDataType = null;
+        Class<?> returnDataType = null;
         Type genericReturnType = method.getGenericReturnType();
         if (genericReturnType != null) {
             ParameterizedType aType = (ParameterizedType) method.getGenericReturnType();
-            returnDataType = (Class) aType.getActualTypeArguments()[0];
+            returnDataType = (Class<?>) aType.getActualTypeArguments()[0];
         }
         Object param;
         if (args != null && args.length >= 1) {
