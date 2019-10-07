@@ -6,8 +6,8 @@ Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M5(spring-boot-starter-
 ### Requirements
 
 * Jdk 1.8+
-* Spring Framework 5.2.0.M4
-* Spring Boot 2.2.0.M5
+* Spring Framework 5.2.0
+* Spring Boot 2.2.0.RC1
 
 ### Glossary
 
@@ -98,5 +98,6 @@ Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React inte
 
 ### References
 
-* Spring Tips: RSocket Messaging in Spring Boot 2.2: https://spring.io/blog/2019/04/15/spring-tips-rsocket-messaging-in-spring-boot-2-2
+* Spring RSocket: https://docs.spring.io/spring/docs/5.2.0.RELEASE/spring-framework-reference/web-reactive.html#rsocket
+* Spring Boot RSocket: https://docs.spring.io/spring-boot/docs/2.2.0.RC1/reference/html/spring-boot-features.html#boot-features-rsocket
 * RSocket: http://rsocket.io/
