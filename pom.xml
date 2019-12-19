@@ -15,8 +15,8 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring.version>5.2.1.RELEASE</spring.version>
-        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+        <spring.version>5.2.2.RELEASE</spring.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <rsocket.version>1.0.0-RC5</rsocket.version>
         <junit5.version>5.5.2</junit5.version>
     </properties>
