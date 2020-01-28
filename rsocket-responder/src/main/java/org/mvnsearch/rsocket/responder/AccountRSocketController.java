@@ -19,17 +19,17 @@ public class AccountRSocketController {
     @Autowired
     private AccountService accountService;
 
-    @MessageMapping("org.mvnsearch.account.AccountService_findById")
+    @MessageMapping("org.mvnsearch.account.AccountService-findById")
     public Mono<Account> findById(Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService_findById_{id}")
+    @MessageMapping("org.mvnsearch.account.AccountService-findById_{id}")
     public Mono<Account> findById2(@DestinationVariable Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService_findAll")
+    @MessageMapping("org.mvnsearch.account.AccountService-findAll")
     public Flux<Account> findAll() {
         return accountService.findAll();
     }
