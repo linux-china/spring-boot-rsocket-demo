@@ -42,17 +42,17 @@ public class AccountRSocketController {
     @Autowired
     private AccountService accountService;
 
-    @MessageMapping("org.mvnsearch.account.AccountService.findById")
+    @MessageMapping("org.mvnsearch.account.AccountService-findById")
     public Mono<Account> findById(Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService.findById.{id}")
+    @MessageMapping("org.mvnsearch.account.AccountService-findById.{id}")
     public Mono<Account> findById2(@DestinationVariable Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService.findAll")
+    @MessageMapping("org.mvnsearch.account.AccountService-findAll")
     public Flux<Account> findAll() {
         return accountService.findAll();
     }
@@ -98,6 +98,6 @@ Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React inte
 
 ### References
 
-* Spring RSocket: https://docs.spring.io/spring/docs/5.2.0.RELEASE/spring-framework-reference/web-reactive.html#rsocket
-* Spring Boot RSocket: https://docs.spring.io/spring-boot/docs/2.2.0.RC1/reference/html/spring-boot-features.html#boot-features-rsocket
+* Spring RSocket: https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/web-reactive.html#rsocket
+* Spring Boot RSocket: https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/html/spring-boot-features.html#boot-features-rsocket
 * RSocket: http://rsocket.io/
