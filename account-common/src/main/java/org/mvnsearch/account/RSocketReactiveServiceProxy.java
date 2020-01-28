@@ -28,7 +28,7 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        String routeKey = serviceFullName + "-" + method.getName();
+        String routeKey = serviceFullName + "." + method.getName();
         Class<?> returnDataType = null;
         Type genericReturnType = method.getGenericReturnType();
         if (genericReturnType != null) {
