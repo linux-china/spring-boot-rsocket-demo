@@ -1,8 +1,5 @@
 package org.mvnsearch.rsocket.requester;
 
-import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
-import io.rsocket.uri.UriTransportRegistry;
 import org.mvnsearch.account.AccountService;
 import org.mvnsearch.account.RSocketRemoteServiceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +8,8 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketStrategies;
 import org.springframework.util.MimeTypeUtils;
 
+import java.net.URI;
+
 /**
  * rsocket configuration
  *
@@ -18,22 +17,14 @@ import org.springframework.util.MimeTypeUtils;
  */
 @Configuration
 public class RSocketConfiguration {
-    @Bean
-    public RSocket rsocket() throws Exception {
-        return RSocketFactory.connect()
-                .metadataMimeType("message/x.rsocket.composite-metadata.v0")
-                .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
-                //.transport(TcpClientTransport.create("localhost", 42252))
-                .transport(UriTransportRegistry.clientForUri("ws://localhost:8088/rsocket"))
-                .start()
-                .block();
-    }
 
     @Bean
-    public RSocketRequester rsocketRequester(RSocket rSocket, RSocketStrategies strategies) {
-        return RSocketRequester.wrap(rSocket, MimeTypeUtils.APPLICATION_JSON, MimeTypeUtils.parseMimeType("message/x.rsocket.composite-metadata.v0"), strategies);
+    public RSocketRequester rsocketRequester(RSocketStrategies strategies) {
+        return RSocketRequester.builder()
+                .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+                .rsocketStrategies(strategies)
+                .connectWebSocket(URI.create("ws://127.0.0.1:8088/rsocket")).block();
     }
-
 
     @Bean
     public AccountService accountService(RSocketRequester rsocketRequester) {
