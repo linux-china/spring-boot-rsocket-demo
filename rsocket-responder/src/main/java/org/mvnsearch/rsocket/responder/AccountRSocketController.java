@@ -15,21 +15,22 @@ import reactor.core.publisher.Mono;
  * @author linux_china
  */
 @Controller
+@MessageMapping("org.mvnsearch.account.AccountService")
 public class AccountRSocketController {
     @Autowired
     private AccountService accountService;
 
-    @MessageMapping("org.mvnsearch.account.AccountService-findById")
+    @MessageMapping("findById")
     public Mono<Account> findById(Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService-findById_{id}")
+    @MessageMapping("findById_{id}")
     public Mono<Account> findById2(@DestinationVariable Integer id) {
         return accountService.findById(id);
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService-findAll")
+    @MessageMapping("findAll")
     public Flux<Account> findAll() {
         return accountService.findAll();
     }
