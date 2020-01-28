@@ -91,6 +91,11 @@ public class RSocketConfiguration {
 Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React integration.
 
 
+### Connection and exposed
+
+* acceptor: RSocketMessageHandler.createResponder()
+* all @MessageMapping methods: rsocketMessageHandler.getHandlerMethods()
+
 ### Changes
 
 * Option to customize or mutate existing RSocketStrategies: https://github.com/spring-projects/spring-framework/issues/22799
