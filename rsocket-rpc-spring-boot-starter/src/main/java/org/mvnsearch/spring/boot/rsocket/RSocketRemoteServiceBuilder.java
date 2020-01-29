@@ -1,4 +1,4 @@
-package org.mvnsearch.account;
+package org.mvnsearch.spring.boot.rsocket;
 
 import org.springframework.messaging.rsocket.RSocketRequester;
 

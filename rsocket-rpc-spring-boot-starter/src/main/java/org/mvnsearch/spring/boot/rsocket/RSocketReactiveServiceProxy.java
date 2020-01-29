@@ -1,14 +1,13 @@
-package org.mvnsearch.account;
+package org.mvnsearch.spring.boot.rsocket;
 
 import org.springframework.messaging.rsocket.RSocketRequester;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * RSocket reactive service proxy
@@ -16,6 +15,7 @@ import java.time.Duration;
  * @author linux_china
  */
 public class RSocketReactiveServiceProxy implements InvocationHandler {
+    private Map<Method, ReactiveMethodCall> reacitveCalls = new ConcurrentHashMap<>();
     private RSocketRequester rsocketRequester;
     private String serviceFullName;
     private Duration timeout;
@@ -29,25 +29,23 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String routeKey = serviceFullName + "." + method.getName();
-        Class<?> returnDataType = null;
-        Type genericReturnType = method.getGenericReturnType();
-        if (genericReturnType != null) {
-            ParameterizedType aType = (ParameterizedType) method.getGenericReturnType();
-            returnDataType = (Class<?>) aType.getActualTypeArguments()[0];
+        ReactiveMethodCall reactiveCall = reacitveCalls.get(method);
+        if (reactiveCall == null) {
+            reactiveCall = new ReactiveMethodCall(method);
+            reacitveCalls.put(method, reactiveCall);
         }
-        Object param;
+        RSocketRequester.RetrieveSpec retrieveSpec;
         if (args != null && args.length >= 1) {
-            param = args[0];
+            retrieveSpec = rsocketRequester.route(routeKey).data(args[0]);
         } else {
-            param = Mono.empty();
+            retrieveSpec = rsocketRequester.route(routeKey).data(Mono.empty());
         }
-        RSocketRequester.RequestSpec route = rsocketRequester.route(routeKey);
-        if (method.getReturnType().isAssignableFrom(Mono.class)) {
-            return route.data(param).retrieveMono(returnDataType).timeout(timeout);
-        } else if (method.getReturnType().isAssignableFrom(Flux.class)) {
-            return route.data(param).retrieveFlux(returnDataType).timeout(timeout);
+        if (reactiveCall.getRequestType() == 0x04) {
+            return retrieveSpec.retrieveMono(reactiveCall.getReturnDataType()).timeout(timeout);
+        } else if (reactiveCall.getRequestType() == 0x05 || reactiveCall.getRequestType() == 0x07) {
+            return retrieveSpec.retrieveFlux(reactiveCall.getReturnDataType()).timeout(timeout);
         } else {
-            return route.data(param).send().timeout(timeout);
+            return retrieveSpec.send().timeout(timeout);
         }
     }
 }
