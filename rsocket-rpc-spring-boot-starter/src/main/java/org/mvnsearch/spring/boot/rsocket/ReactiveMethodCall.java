@@ -1,5 +1,6 @@
 package org.mvnsearch.spring.boot.rsocket;
 
+import io.rsocket.frame.FrameType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,11 +15,7 @@ import java.lang.reflect.Type;
  */
 public class ReactiveMethodCall {
     private Class<?> returnDataType;
-    public static int REQUEST_RESPONSE = 0x04;
-    public static int REQUEST_FNF = 0x05;
-    public static int REQUEST_STREAM = 0x06;
-    public static int REQUEST_CHANNEL = 0x07;
-    private int requestType;
+    private FrameType frameType;
 
     public ReactiveMethodCall(Method method) {
         Type genericReturnType = method.getGenericReturnType();
@@ -29,16 +26,16 @@ public class ReactiveMethodCall {
         Class<?>[] parameterTypes = method.getParameterTypes();
         if (parameterTypes.length > 0) {
             if (parameterTypes[0].isAssignableFrom(Flux.class)) {
-                this.requestType = REQUEST_CHANNEL;
+                this.frameType = FrameType.REQUEST_CHANNEL;
             }
         }
-        if (requestType == 0) {
+        if (frameType == null) {
             if (method.getReturnType().isAssignableFrom(Mono.class)) {
-                this.requestType = REQUEST_RESPONSE;
+                this.frameType = FrameType.REQUEST_RESPONSE;
             } else if (method.getReturnType().isAssignableFrom(Flux.class)) {
-                this.requestType = REQUEST_STREAM;
+                this.frameType = FrameType.REQUEST_STREAM;
             } else {
-                this.requestType = REQUEST_FNF;
+                this.frameType = FrameType.REQUEST_FNF;
             }
         }
     }
@@ -47,7 +44,7 @@ public class ReactiveMethodCall {
         return returnDataType;
     }
 
-    public int getRequestType() {
-        return requestType;
+    public FrameType getFrameType() {
+        return frameType;
     }
 }
