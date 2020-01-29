@@ -14,6 +14,10 @@ import java.lang.reflect.Type;
  */
 public class ReactiveMethodCall {
     private Class<?> returnDataType;
+    public static int REQUEST_RESPONSE = 0x04;
+    public static int REQUEST_FNF = 0x05;
+    public static int REQUEST_STREAM = 0x06;
+    public static int REQUEST_CHANNEL = 0x07;
     private int requestType;
 
     public ReactiveMethodCall(Method method) {
@@ -22,12 +26,20 @@ public class ReactiveMethodCall {
             ParameterizedType aType = (ParameterizedType) method.getGenericReturnType();
             this.returnDataType = (Class<?>) aType.getActualTypeArguments()[0];
         }
-        if (method.getReturnType().isAssignableFrom(Mono.class)) {
-            this.requestType = 0x04;
-        } else if (method.getReturnType().isAssignableFrom(Flux.class)) {
-            this.requestType = 0x06;
-        } else {
-            this.requestType = 0x05;
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        if (parameterTypes.length > 0) {
+            if (parameterTypes[0].isAssignableFrom(Flux.class)) {
+                this.requestType = REQUEST_CHANNEL;
+            }
+        }
+        if (requestType == 0) {
+            if (method.getReturnType().isAssignableFrom(Mono.class)) {
+                this.requestType = REQUEST_RESPONSE;
+            } else if (method.getReturnType().isAssignableFrom(Flux.class)) {
+                this.requestType = REQUEST_STREAM;
+            } else {
+                this.requestType = REQUEST_FNF;
+            }
         }
     }
 
