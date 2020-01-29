@@ -9,6 +9,8 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.mvnsearch.spring.boot.rsocket.ReactiveMethodCall.*;
+
 /**
  * RSocket reactive service proxy
  *
@@ -40,9 +42,9 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
         } else {
             retrieveSpec = rsocketRequester.route(routeKey).data(Mono.empty());
         }
-        if (reactiveCall.getRequestType() == 0x04) {
+        if (reactiveCall.getRequestType() == REQUEST_RESPONSE) {
             return retrieveSpec.retrieveMono(reactiveCall.getReturnDataType()).timeout(timeout);
-        } else if (reactiveCall.getRequestType() == 0x05 || reactiveCall.getRequestType() == 0x07) {
+        } else if (reactiveCall.getRequestType() == REQUEST_STREAM || reactiveCall.getRequestType() == REQUEST_CHANNEL) {
             return retrieveSpec.retrieveFlux(reactiveCall.getReturnDataType()).timeout(timeout);
         } else {
             return retrieveSpec.send().timeout(timeout);
