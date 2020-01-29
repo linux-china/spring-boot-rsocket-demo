@@ -20,6 +20,11 @@
             <artifactId>account-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.mvnsearch</groupId>
+            <artifactId>rsocket-rpc-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
