@@ -1,26 +1,9 @@
 Spring Boot RSocket Demo
 ========================
 
-Demo with Spring Messaging RSocket and Spring Boot 2.2.0(spring-boot-starter-rsocket).
+Spring Boot RSocket communication with RPC(interface) style.
 
-### Requirements
-
-* Jdk 1.8+
-* Spring Boot 2.2.4
-
-### Glossary
-
-* RSocketRequester: RSocket Requester, almost like WebClient for HTTP.
-
-### Modules
-
-* account-common: Reactive Service API
-* rsocket-rpc-spring-boot-starter: Spring Boot Starter to make RSocket call as RPC style
-* rsocket-responder: supply RSocket services
-* rsocket-requester: consume RSocket services
-* rsocket-react-demo: call rsocket service from browser
-
-### How the demo works?
+# How it works?
 
 * Create a Reactive service interface alike following
 
@@ -76,22 +59,31 @@ public class RSocketConfiguration {
 }
 ```
 
-### Browser support
+# Browser support
 
 Please refer [rsocket-react-demo](rsocket-react-demo) for RSocket and React integration.
 
+# Development
 
-### Connection and exposed
+### Requirements
+
+* Jdk 1.8+
+* Spring Boot 2.2.4
+
+### Maven Modules
+
+* account-common: Reactive Service API
+* rsocket-rpc-spring-boot-starter: Spring Boot Starter to make RSocket call as RPC style
+* rsocket-responder: supply RSocket services
+* rsocket-requester: consume RSocket services
+* rsocket-react-demo: call rsocket service from browser
+
+### RSocket acceptor & handler registry
 
 * acceptor: RSocketMessageHandler.createResponder()
 * all @MessageMapping methods: rsocketMessageHandler.getHandlerMethods()
 
-### Changes
-
-* Option to customize or mutate existing RSocketStrategies: https://github.com/spring-projects/spring-framework/issues/22799
-* Add coroutines support to RSocket @MessageMapping and RSocketRequester: https://github.com/spring-projects/spring-framework/issues/22780
-
-### References
+# References
 
 * Spring RSocket: https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/web-reactive.html#rsocket
 * Spring Boot RSocket: https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/html/spring-boot-features.html#boot-features-rsocket
