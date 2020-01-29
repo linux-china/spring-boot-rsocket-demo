@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author linux_china
  */
 public class RSocketReactiveServiceProxy implements InvocationHandler {
-    private Map<Method, ReactiveMethodCall> reacitveCalls = new ConcurrentHashMap<>();
+    private Map<Method, ReactiveMethodCall> reactiveCalls = new ConcurrentHashMap<>();
     private RSocketRequester rsocketRequester;
     private String serviceFullName;
     private Duration timeout;
@@ -29,10 +29,10 @@ public class RSocketReactiveServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String routeKey = serviceFullName + "." + method.getName();
-        ReactiveMethodCall reactiveCall = reacitveCalls.get(method);
+        ReactiveMethodCall reactiveCall = reactiveCalls.get(method);
         if (reactiveCall == null) {
             reactiveCall = new ReactiveMethodCall(method);
-            reacitveCalls.put(method, reactiveCall);
+            reactiveCalls.put(method, reactiveCall);
         }
         RSocketRequester.RetrieveSpec retrieveSpec;
         if (args != null && args.length >= 1) {
