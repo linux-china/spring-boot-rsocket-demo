@@ -1,13 +1,12 @@
 Spring Boot RSocket Demo
 ========================
 
-Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M5(spring-boot-starter-rsocket).
+Demo with Spring Messaging RSocket and Spring Boot 2.2.0(spring-boot-starter-rsocket).
 
 ### Requirements
 
 * Jdk 1.8+
-* Spring Framework 5.2.0
-* Spring Boot 2.2.0.RC1
+* Spring Boot 2.2.4
 
 ### Glossary
 
@@ -15,14 +14,15 @@ Demo with Spring Messaging RSocket and Spring Boot 2.2.0.M5(spring-boot-starter-
 
 ### Modules
 
-* account-common: shared library for RSocket responder & requester
+* account-common: Reactive Service API
+* rsocket-rpc-spring-boot-starter: Spring Boot Starter to make RSocket call as RPC style
 * rsocket-responder: supply RSocket services
 * rsocket-requester: consume RSocket services
 * rsocket-react-demo: call rsocket service from browser
 
 ### How the demo works?
 
-* Create a Reactive service interface like following
+* Create a Reactive service interface alike following
 
 ```java
 public interface AccountService {
@@ -34,27 +34,23 @@ public interface AccountService {
 }
 ```
 
-* On responder side: implement Service Interface and create a RSocket Controller, for example AccountRSocketController. In future you can use code generation strategy.
+* On responder side: implement Service Interface and annotate it with @Controller and @MessageMapping to make it exposed as RSocket service.
 
 ```java
+@Service
 @Controller
-public class AccountRSocketController {
-    @Autowired
-    private AccountService accountService;
-
-    @MessageMapping("org.mvnsearch.account.AccountService-findById")
+@MessageMapping("org.mvnsearch.account.AccountService")
+public class AccountServiceImpl implements AccountService {
+    @Override
+    @MessageMapping("findById")
     public Mono<Account> findById(Integer id) {
-        return accountService.findById(id);
+        return Mono.just(new Account(id, "nick:" + id));
     }
 
-    @MessageMapping("org.mvnsearch.account.AccountService-findById.{id}")
-    public Mono<Account> findById2(@DestinationVariable Integer id) {
-        return accountService.findById(id);
-    }
-
-    @MessageMapping("org.mvnsearch.account.AccountService-findAll")
+    @Override
+    @MessageMapping("findAll")
     public Flux<Account> findAll() {
-        return accountService.findAll();
+        return Flux.just(new Account(1, "Jackie"), new Account(2, "Tom"));
     }
 }
 ```
@@ -64,20 +60,14 @@ public class AccountRSocketController {
 ```java
 @Configuration
 public class RSocketConfiguration {
-    @Bean
-    public RSocket rsocket() {
-        return RSocketFactory.connect()
-                .dataMimeType(MimeTypeUtils.APPLICATION_JSON_VALUE)
-                .transport(TcpClientTransport.create("localhost", 42252))
-                .start()
-                .block();
-    }
 
     @Bean
-    public RSocketRequester rsocketRequester(RSocket rSocket, RSocketStrategies strategies) {
-        return RSocketRequester.create(rSocket, MimeTypeUtils.APPLICATION_JSON, strategies);
+    public RSocketRequester rsocketRequester(RSocketStrategies strategies) {
+        return RSocketRequester.builder()
+                .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+                .rsocketStrategies(strategies)
+                .connectWebSocket(URI.create("ws://127.0.0.1:8088/rsocket")).block();
     }
-
 
     @Bean
     public AccountService accountService(RSocketRequester rsocketRequester) {
