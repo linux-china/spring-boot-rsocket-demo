@@ -1,7 +1,7 @@
 package org.mvnsearch.rsocket.requester;
 
 import org.mvnsearch.account.AccountService;
-import org.mvnsearch.account.RSocketRemoteServiceBuilder;
+import org.mvnsearch.spring.boot.rsocket.RSocketRemoteServiceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketRequester;
