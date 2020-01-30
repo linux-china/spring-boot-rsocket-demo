@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketStrategies;
+import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler;
 import org.springframework.util.MimeTypeUtils;
 
 import java.net.URI;
@@ -19,10 +20,11 @@ import java.net.URI;
 public class RSocketConfiguration {
 
     @Bean
-    public RSocketRequester rsocketRequester(RSocketStrategies strategies) {
+    public RSocketRequester rsocketRequester(RSocketStrategies strategies, RSocketMessageHandler rsocketMessageHandler) {
         return RSocketRequester.builder()
                 .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
                 .rsocketStrategies(strategies)
+                //.rsocketFactory(rsocketFactory -> rsocketFactory.acceptor(rsocketMessageHandler.responder()))
                 .connectWebSocket(URI.create("ws://127.0.0.1:8088/rsocket")).block();
     }
 
