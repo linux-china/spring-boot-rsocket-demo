@@ -3,4 +3,7 @@ GET http://localhost:8088/welcome
 ### rsocket call
 GET http://localhost:8080/account/2
 
+### rsocket call
+GET http://localhost:8080/user/2
+
 ###
