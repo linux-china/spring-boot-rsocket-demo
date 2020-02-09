@@ -1,6 +1,7 @@
 package org.mvnsearch.rsocket.requester;
 
 import org.mvnsearch.account.AccountService;
+import org.mvnsearch.account.UserService;
 import org.mvnsearch.spring.boot.rsocket.RSocketRemoteServiceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +32,10 @@ public class RSocketConfiguration {
     @Bean
     public AccountService accountService(RSocketRequester rsocketRequester) {
         return RSocketRemoteServiceBuilder.client(rsocketRequester, AccountService.class).build();
+    }
+
+    @Bean
+    public UserService userService(RSocketRequester rsocketRequester) {
+        return RSocketRemoteServiceBuilder.client(rsocketRequester, UserService.class).build();
     }
 }
