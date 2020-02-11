@@ -16,7 +16,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
@@ -46,14 +46,20 @@ public class RSocketClientTest {
 
     @Test
     public void testRequestResponse() throws Exception {
-        PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
-        CompositeByteBuf compositeByteBuf = allocator.compositeDirectBuffer();
-        ByteBuf routingMetadata = TaggingMetadataFlyweight.createTaggingContent(allocator, Arrays.asList("org.mvnsearch.account.AccountService.findById"));
-        CompositeMetadataFlyweight.encodeAndAddMetadata(compositeByteBuf, allocator, WellKnownMimeType.MESSAGE_RSOCKET_ROUTING, routingMetadata);
-        rsocket.requestResponse(DefaultPayload.create(Unpooled.wrappedBuffer(objectMapper.writeValueAsBytes(1)), compositeByteBuf))
+        CompositeByteBuf compositeByteBuf = compositeMetadataWithRouting("org.mvnsearch.account.AccountService.findById");
+        byte[] jsonData = objectMapper.writeValueAsBytes(1);
+        rsocket.requestResponse(DefaultPayload.create(Unpooled.wrappedBuffer(jsonData), compositeByteBuf))
                 .subscribe(payload -> {
                     System.out.println(payload.getDataUtf8());
                 });
         Thread.sleep(500000);
+    }
+
+    private CompositeByteBuf compositeMetadataWithRouting(String routingKey) {
+        PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
+        CompositeByteBuf compositeByteBuf = allocator.compositeDirectBuffer();
+        ByteBuf routingMetadata = TaggingMetadataFlyweight.createTaggingContent(allocator, Collections.singletonList(routingKey));
+        CompositeMetadataFlyweight.encodeAndAddMetadata(compositeByteBuf, allocator, WellKnownMimeType.MESSAGE_RSOCKET_ROUTING, routingMetadata);
+        return compositeByteBuf;
     }
 }
