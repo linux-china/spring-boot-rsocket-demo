@@ -7,8 +7,8 @@ import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.rsocket.RSocket;
 import io.rsocket.core.RSocketConnector;
-import io.rsocket.metadata.CompositeMetadataFlyweight;
-import io.rsocket.metadata.TaggingMetadataFlyweight;
+import io.rsocket.metadata.CompositeMetadataCodec;
+import io.rsocket.metadata.TaggingMetadataCodec;
 import io.rsocket.metadata.WellKnownMimeType;
 import io.rsocket.transport.netty.client.WebsocketClientTransport;
 import io.rsocket.util.DefaultPayload;
@@ -57,8 +57,8 @@ public class RSocketClientTest {
     private CompositeByteBuf compositeMetadataWithRouting(String routingKey) {
         PooledByteBufAllocator allocator = PooledByteBufAllocator.DEFAULT;
         CompositeByteBuf compositeByteBuf = allocator.compositeDirectBuffer();
-        ByteBuf routingMetadata = TaggingMetadataFlyweight.createTaggingContent(allocator, Collections.singletonList(routingKey));
-        CompositeMetadataFlyweight.encodeAndAddMetadata(compositeByteBuf, allocator, WellKnownMimeType.MESSAGE_RSOCKET_ROUTING, routingMetadata);
+        ByteBuf routingMetadata = TaggingMetadataCodec.createTaggingContent(allocator, Collections.singletonList(routingKey));
+        CompositeMetadataCodec.encodeAndAddMetadata(compositeByteBuf, allocator, WellKnownMimeType.MESSAGE_RSOCKET_ROUTING, routingMetadata);
         return compositeByteBuf;
     }
 }
