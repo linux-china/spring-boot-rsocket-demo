@@ -6,16 +6,17 @@ import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.rsocket.RSocket;
-import io.rsocket.RSocketFactory;
+import io.rsocket.core.RSocketConnector;
 import io.rsocket.metadata.CompositeMetadataFlyweight;
 import io.rsocket.metadata.TaggingMetadataFlyweight;
 import io.rsocket.metadata.WellKnownMimeType;
-import io.rsocket.uri.UriTransportRegistry;
+import io.rsocket.transport.netty.client.WebsocketClientTransport;
 import io.rsocket.util.DefaultPayload;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.net.URI;
 import java.util.Collections;
 
 
@@ -30,12 +31,10 @@ public class RSocketClientTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        rsocket = RSocketFactory
-                .connect()
+        rsocket = RSocketConnector.create()
                 .dataMimeType(WellKnownMimeType.APPLICATION_JSON.getString())
                 .metadataMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString())
-                .transport(UriTransportRegistry.clientForUri("ws://127.0.0.1:8088/rsocket"))
-                .start()
+                .connect(WebsocketClientTransport.create(URI.create("ws://127.0.0.1:8088/rsocket")))
                 .block();
     }
 
