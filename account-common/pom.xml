@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <reactor.version>3.3.2.RELEASE</reactor.version>
+        <reactor.version>3.4.14</reactor.version>
     </properties>
 
     <dependencies>
@@ -35,12 +35,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
+    
 </project>
