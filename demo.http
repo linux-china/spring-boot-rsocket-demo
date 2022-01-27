@@ -6,4 +6,10 @@ GET http://localhost:8080/account/2
 ### rsocket call
 GET http://localhost:8080/user/2
 
-###
+### RSocket basic request
+//@name findUserById
+RSOCKET org.mvnsearch.account.UserService.findById
+Host: ws://localhost:8088/rsocket
+Content-Type: application/json
+
+[1]
